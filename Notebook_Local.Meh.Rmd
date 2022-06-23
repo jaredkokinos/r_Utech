@@ -1,0 +1,405 @@
+---
+title: "R Notebook (LOCAL): ISLR"
+output: html_notebook
+---
+s
+--------------------------------------------
+--------------------------------------------
+When going through my R coding notes:
+1) start by providing each use for each function from all the homework and in-class code 
+
+##################################################################################################
+##################################################################################################
+                                        ANNOYANCES:
+
+#dplyr::select
+sometimes we have to use *dplyr::select* because it thinks that we are trying to use select() from the MASS Package, so this is what to do if we get this error and have both of the libraries in use at the same time 
+
+
+ 
+## __package.name____:: function ()
+Helps to access the exact function from that specific package, used especially when one function is used across multiple packages or the 
+ 
+ 
+ 
+ 
+*Viewer*
+keeps updating (with auto-update on); hit the "remove current viewer item" 
+ 
+
+
+##################################################################################################
+##################################################################################################
+
+#           IDE Essentials: 
+
+## Packages
+tab to the right of the version there is a link with the 'web' icon that send you to the developer's web page which is pretty useful
+
+
+##Preview Notebook
+-> Cmd+Shift+K to preview HTML file. 
+
+_USE_
+Displays a live version of the rendered notebook, similar to knitting, if you set the auto-save referesh rate to a high value, then it will provide a HTML copy of the contents (can open in a separate window or the viewer panel). From the viewing method, you can publish it online
+
+_Beware_
+It does not run any R code chunks!! Only shows the output of the chunk when it was last run in the editor 
+
+
+## Viewer 
+keeps updating (with auto-update on); hit the "remove current viewer item" 
+ 
+
+### __package.name____:: function ()
+Helps to access the exact function from that specific package, used especially when one function is used across multiple packages or the 
+
+__USE__:
+1. Upon getting the error: 
+*The following objects are masked from ‘package:base’: intersect, setdiff, setequal, union*
+
+__Beware__: 
+1. The sequence you load libraries determine the preferential access of the specific functions. 
+- Developers of different package tend to use same function names. 
+- However, when R encounters a function, it runs through the different libraries that particular session has loaded in a sequential manner. 
+- You can check the packages in a session by running (.packages())
+
+Example
+
+
+ [1] "tidyr"      "data.table" "dplyr"      "stats"     
+ [5] "graphics"   "grDevices"  "utils"      "datasets"  
+ [9] "methods"    "base"    
+
+As you can see in my example session above, tidyr is the last library I loaded, which is r session 1st entry. So, when you use any function in your code , first it is searched in tidyr -> then data.table -> then dplyr and so on, finally the base package is looked up. So, in this process when there is function name overlaps between packages the one which loaded the last masks the previous ones. To avoid this masking, you specify in R code where to look for the function. Hence, here base::intersect, will use the function from base library instead of the dplyr. Alternatively, you can use to avoid loading of complete library. 
+dplyr::intersect(first, second)
+base::intersect(first, second)
+
+
+##################################################################################################
+##################################################################################################
+                                      Essential Functions              
+
+#names():
+
+#var(): 
+Computes the variance of x 
+
+#cov(), cor(): 
+-> Computes the covariance or correlation of x and y if these are vectors. 
+-> If x and y are matrices: then the co-variances (or correlations) between the columns of x and the columns of y are computed.
+
+#cov2cor()
+scales a covariance matrix into the corresponding correlation matrix efficiently
+
+
+
+#apply() {base}
+
+#prcomp()
+Performs a principal components analysis on the given data matrix and returns the results as an object of class prcomp
+
+## "scale"
+??tells us if we are running it on the correlation matrix or the covariance matrix: \true, \false
+a logical value indicating whether the variables should be scaled to have unit variance before the analysis takes place.
+
+
+*Heat maps:*
+when plotting heat maps and vectors it orders in alphabetical by default 
+
+
+
+#spec() { _readr_ }
+Extracts the full column specification from a **tibble** created by _readr_.
+
+
+
+
+##################################################################################################
+BASICS:                                         Data Types
+
+#dbl
+> Holds numeric values with decimal points (dbl came from double). 
+
+The alternative, integer, is defined for integer numbers; most numeric values can be treated as double, even if integers
+"dbl stands for double class. A double-precision floating point number."
+
+##################################################################################################
+BASICS:                                     Indexing data
+          
+            
+>>> dataset.name[row range, col range] 
+
+
+1a)         **For tibbles**
+## Take all observations (rows) for a *Range of Columns* (variables):
+> tibble.name[  ,col start: col end] 
+
+
+## Take all columns (variables) for a **range of Rows** (observations):
+> tibble.name[row start:row end,  ]
+
+1b) *when we have a dataset* ... same as tibble??
+
+
+##################################################################################################
+BASICS:                                   Checking Data/Objects
+
+Check if object is a tibble:
+> is_tibble(Name You Are Checking)
+
+Gives: Col names of object
+> names(object.name) describes useful quantities 
+
+
+## Better Way to check object - uses nested brackets **[  [] ]** to indicate output order, and respective data within object (ie names of rows {numeric, categorical, nominal, etc.})
+> dimnames(object.name) 
+
+>> [[Output 1] names of rows 
+[1] [obs.1] [obs.2] ... \cdots
+[k] ... k-th observation:
+
+>> [[Output 2] names of cols
+[1] [Var1.Name] [Var1.Name] ... \cdots
+[K] "VarK.Name"
+
+#check data type of one variable
+>class(x)
+
+#check data type of every variable in data frame
+>str(df)
+
+#check if a variable is a specific data type
+> is.factor(x)
+> is.numeric(x)
+> is.logical(x)
+
+where:
+"Andy" is a character
+
+
+
+
+
+##################################################################################################
+BASICS:                                         Output
+ >>>> Functions: [1], [2], ... [n] gives the ordered sequence of what you ran. 
+
+Ex1) __names(Object[1:4])__
+Gives respective column names in order - numeric indication when the output cannot keep to one line 
+> [1] "Var1.Name" "Var2.Name" "Var3.Name" ... 
+[4] "Var4.Name" "Var4.Name"... \cdots
+[K] "VarK.Name"
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################################################################################################################################################################################################################################################################################
+                                   Useful shortcuts (Mac):
+
+##                 Chunks
+
+*Insert Chunk* 1) Cmd+Option+I:
+
+Naming chunks: {r  _[no commas] this is where you put the chunks name_}
+
+3) Cmd+Shift+Enter: *Run current chunk*
+
+Cmd+Shift+C
+4a) *Comment out lines - inside chunk*
+4b) *Error out lines - in RMarkdown text area*
+
+
+
+
+
+
+##################################################################################################
+##################################################################################################
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# START OF ISLR TEXTBOOK NOTES:
+
+##        __Lab: Unsupervised Learning  12.5 (pg. 533)__
+
+
+#                 apply{baseR}
+PURPOSE: Applies Functions Over Array Margins
+
+Description: Returns a vector or array or list of values obtained by applying a function to margins of an array or matrix.
+
+    ISLR Defn: "allows us to apply a function 'func()' to each row or column of the data set"
+
+#### My Defn:
+
+apply func() to rows: 1  
+apply func() to columns: 2
+
+
+
+
+```{r Importing our Data Set}
+states <- row.names(USArrests)
+#states
+
+names(USArrests)
+#[1] "Murder"   "Assault"  "UrbanPop"
+#[4] "Rape"    
+  
+
+#-----------------------------------
+##### apply(USArrests, 1, mean)
+#USE: applies the function mean() to the rows of the data set 
+
+#OUT: list of states with _______
+
+#NOTE: dim(apply(...)) > "NULL" 
+
+
+apply(USArrests, 2, mean)
+#USE: applies the function 'mean()' to the columns of the data set 
+
+#OUT: numeric means for: "Murder",  "Assault",  "UrbanPop", "Rape"  
+
+#NOTE: dim(apply(...)) > "NULL" 
+
+
+#-----------------------------------
+apply(USArrests, 2, var)
+#USE: applies the function 'var()' to the columns of the data set 
+
+#OUT: numeric variances for: "Murder",  "Assault",  "UrbanPop", "Rape"  
+
+
+#NOTE: dim(apply(...)) > "NULL" 
+
+```
+
+
+#----------------------------------------------------------
+#-----------------------------------------------------------
+
+#Performing Principal Component Analysis (PCA) with prcomp() 
+1st: make sure to standardize variables (Mean=0, STD=1) before performing PCA
+
+Note: 
+1) the typical number of informative principal components in a data set: min(n-1,p) where n=obs & y=variables
+2) PC's are only unique up to a sign change 
+
+
+
+
+```{r PCA Analysis: Loading Vector}
+
+pr.out <- prcomp(USArrests, scale = TRUE)
+names(pr.out) # describes useful quantities
+
+pr.out$center #means prior to PCA
+pr.out$scale #standard deviation prior to PCA
+
+pr.out$rotation # gives corresponding principal component loading vector
+
+# typical number of informative principal components in a dim(nxp) data set: min(n-1,p)
+
+```
+
+```{r PCA Analysis: PC score vectors}
+
+pr.out$x  #is a matrix whose columns are the Principal Component Score Vectors
+#The k-th column is the k-th PC Score Vector
+
+dim(pr.out$x) # [1] 50  4 ... which means 50 observations and 4 column vectors
+
+# biplot(pr.out, scale = 0)
+# 
+# pr.out$rotation = -pr.out$rotation
+# pr.out$x = -pr.out$x
+# biplot(pr.out , scale = 0)
+```
+
+
+```{r PCA Analysis: % Var Explained (by each PC) }
+pr.var <- pr.out$sdev^2
+pve <- pr.var / sum(pr.var)
+pve
+#62% explained by 1st PC
+#25% explained by 2nd PC
+#8.9% "__" by 3rd PC
+#4.3% " " by 4th PC
+#sum these and get ANS = 1
+# 1 = 0.62006039+0.24744129+0.08914080+0.04335752
+```
+
+
+
+
+###                       **prcomp()** 
+                      
+
+DEFAULT: centers variables to mean=0
+
+\scale=TRUE will scale the variables to have STD=1
+
+> names(*prcomp(Data.Set_name, scale=TRUE)*) describes useful quantities 
+
+\sdev  *Standard Deviation of each PC* {square this to get variance; pr.out$sdev^2 }
+
+\rotation *corresponding PC loading vector* b/c matrix mult. of X with (___$rotation) gives us the co-ords of the data in the rotated co-ordinate system; these co-ords are the __PC scores__
+
+\center  *means of variables (used for scaling) prior to PCA*
+
+\scale   *standard deviation of variables (used for scaling) prior to PCA*
+
+\x
+
+
+#Wtrack_as.tibble <- as_tibble("AMSA_T1_9.txt") #includes country:55x8
+Wtrack <- read_table("AMSA_T1_9.txt") #includes country:55x8
+
+is.numeric(x)(Wtrack[,8])
+
+class(Wtrack[,8])
+
+
+Column specification ────────────────────────────────
+cols(
+  `11.61` = col_double(),
+  `22.94` = col_double(),
+  `54.50` = col_double(),
+  `2.15` = col_double(),
+  `4.43` = col_double(),
+  `9.79` = col_double(),
+  `178.52` = col_double(),
+  Argentina = col_character()
+)
+
+```{r}
+Mtrack svd(Mtrack)
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
